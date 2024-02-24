@@ -1,0 +1,93 @@
+#medium_type = "ram" / "unk"     / "cart" / "ddrive"
+#sequence_player = "sfx" / "fanfare" / "bgm"  / "demo"
+medium_type = "cart"
+sequence_player = "bgm"
+[inst]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 180
+		env_rate = [
+			32, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_671"
+			tuning = 0.668174
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "C6"
+		split_lo = "A1"
+		release_rate = 217
+		env_rate = [
+			2, 250, 1, -1,
+		]
+		env_level = [
+			32700, 0, 0, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_673"
+			tuning = 1.000000
+		[inst.entry.hi]
+			sample = "Unk_674"
+			tuning = 0.445449
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 238
+		env_rate = [
+			2, 1, 511, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_392"
+			tuning = 3.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 248
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_657"
+			tuning = 1.190551
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "C#5"
+		split_lo = "D#4"
+		release_rate = 235
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_602"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_603"
+			tuning = 1.259921
+		[inst.entry.hi]
+			sample = "Unk_604"
+			tuning = 0.629961
+

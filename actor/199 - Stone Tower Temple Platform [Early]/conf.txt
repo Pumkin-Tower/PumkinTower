@@ -1,0 +1,3 @@
+allocation   0x0000
+vram         0x8096F160
+ivar         0x8096F520

@@ -1,0 +1,27 @@
+#
+## Alias OBJ Material File
+# Exported from SketchUp, (c) 2000-2012 Trimble Navigation Limited
+
+newmtl _64
+Ka 0.000000 0.000000 0.000000
+Kd 0.874510 0.509804 0.243137
+Ks 0.330000 0.330000 0.330000
+map_Kd PumpkinTV and Link for scale/_64.png
+
+newmtl _23
+Ka 0.000000 0.000000 0.000000
+Kd 0.827451 0.141176 0.000000
+Ks 0.330000 0.330000 0.330000
+map_Kd PumpkinTV and Link for scale/_23.png
+
+newmtl _45
+Ka 0.000000 0.000000 0.000000
+Kd 0.137255 0.121569 0.133333
+Ks 0.330000 0.330000 0.330000
+map_Kd PumpkinTV and Link for scale/_45.png
+
+newmtl FrontColor
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 0.330000 0.330000 0.330000
+

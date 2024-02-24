@@ -1,0 +1,4 @@
+room   actor    x        y        z        encode_x    encode_y    encode_z    notes
+   5       1    0        ~        ~        false       ~           ~           "this timer is turned off"
+   10      0    40       ~        ~        false       ~           ~           "this timer lasts 40 seconds"
+

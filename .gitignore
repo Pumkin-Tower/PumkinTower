@@ -1,0 +1,35 @@
+# Ignore all rom files
+*.z64
+*.n64
+*.v64
+
+# Ignore all .bak files
+*.bak
+
+# Ignore all .Identifier files
+*.Identifier
+
+# Ignore all .ini files
+*.ini
+
+# Ignore cache
+cache/*
+
+# Ignore z64rom
+z64rom/
+
+# Ignore binaries
+*.o
+*.elf
+
+# Ignore z64run.bat
+z64run.bat
+./z64run.bat
+
+# Ignore Ares saves
+*.flash
+*.bs*
+
+*.db:encryptable
+*.db
+

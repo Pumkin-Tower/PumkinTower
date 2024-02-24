@@ -1,0 +1,19 @@
+
+01 - Chest, Room 2, Fierce Deity Mask
+02 - Chest, Room 3, Chateau Romani
+03 - Chest, Room 3, Heart Container
+04 - Chest, Room 7, Small Key
+05 -  Door, Room 7, Small Key Room, Clear Trigger
+06 - Chest, Room 6, Small Key
+07 - Deku Flower, Room 0, spawns on switch activation
+08 - Chest, Room 4, Blue Rupee
+
+Room 6 Locked Doors
+0200 -  Door, Room 6, Pyramid Upper Door, Locked, Requires Key
+0201 -  Door, Room 6, Clock Tower Upper Door, Locked, Requires Key
+
+0E - Clear Flag, Iron Knuckles Blue Carpet (008E)
+
+0F - Clear Flag, Iron Knuckles Red Carpet (008F)
+
+10 - Ice

@@ -1,0 +1,14 @@
+/* Corrhaid's Ice Map original player spawns */
+OG player spawn 0
+x - 1253
+y - 13
+z - -1080
+
+y rot - -16383 (-90)
+
+OG player spawn 1
+x - -1618
+y - 317
+z - -1408
+
+y rot - 0

@@ -1,0 +1,26 @@
+icon_bomber_static.yar # relative path
+icon_bomber_static/ # where the images live
+32x32,rgba16,Anju.png // 0x0 -- original address
+32x32,rgba16,Kafei.png // 0x800 -- original address
+32x32,rgba16,CuriosityShopOwner.png // 0x1000 -- original address
+32x32,rgba16,BombShopMother.png // 0x1800 -- original address
+32x32,rgba16,Romani.png // 0x2000 -- original address
+32x32,rgba16,Cremia.png // 0x2800 -- original address
+32x32,rgba16,MayorDotour.png // 0x3000 -- original address
+32x32,rgba16,MadameAroma.png // 0x3800 -- original address
+32x32,rgba16,Toto.png // 0x4000 -- original address
+32x32,rgba16,Gorman.png // 0x4800 -- original address
+32x32,rgba16,Postman.png // 0x5000 -- original address
+32x32,rgba16,RosaSisters.png // 0x5800 -- original address
+32x32,rgba16,ToiletHand.png // 0x6000 -- original address
+32x32,rgba16,AnjusGrandmother.png // 0x6800 -- original address
+32x32,rgba16,Kamaro.png // 0x7000 -- original address
+32x32,rgba16,Grog.png // 0x7800 -- original address
+32x32,rgba16,GormanBrothers.png // 0x8000 -- original address
+32x32,rgba16,Shiro.png // 0x8800 -- original address
+32x32,rgba16,GuruGuru.png // 0x9000 -- original address
+32x32,rgba16,Bombers.png // 0x9800 -- original address
+32x32,rgba16,MadameAromaUnused.png // 0xA000 -- original address
+32x32,ia8,ExclamationPointUnused.png // 0xA800 -- original address
+24x28,ia8,MaskIcon.png // 0xAC00 -- original address
+32x28,ia8,RibbonIcon.png // 0xAEA0 -- original address

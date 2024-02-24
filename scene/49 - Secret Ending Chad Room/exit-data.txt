@@ -1,0 +1,3 @@
+scene  spawn   flags   notes
+78         0   0x4102  "leads from secret room to fishing"
+

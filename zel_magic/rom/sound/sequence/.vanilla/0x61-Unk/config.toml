@@ -1,0 +1,9 @@
+# Unk
+bank_id         = [ 0x00 ]
+seq_pointer     = 0x51 # Sequence ID - Jumps into this sequence
+# Sample Medium types [ram/unk/cart/ddrive]
+medium_type     = "cart"
+# Sequence Player types [sfx/fanfare/bgm/demo]
+sequence_player = "fanfare"
+# [ allow_enemy_bgm/fanfare/fanfare_ganon/restore/section_store/section_preserve/io7_1/no_ambience]
+sequence_flags  = [ "section_preserve", "io7_1", "no_ambience" ]

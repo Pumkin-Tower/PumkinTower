@@ -1,0 +1,30 @@
+values for XX
+00 - Nothing
+01 - Green Rupee
+02 - Blue Rupee
+03 - Stalfos
+04 - Red Rupee
+05 - Big Putple Rupee
+06 - Nothing
+07 - Big Orange Rupee
+08 - Nothing
+09 - Nothing
+0A - Green Rupee Again
+0B - Green Rupee Again
+0C - Piece of Heart
+0D - Invisible Heart Container
+0E - Magic
+0F - Magic
+1F - Multiple Arrows
+1E - Arrow
+
+object dependency for magic vase is 019C
+
+object dependency for vases 00F9
+variable starts with 01 (01XX)
+
+use variable 4910 if you want a vase containing a fairy
+
+410B = 3 Hearts
+4515 = 5 Bombs
+471F

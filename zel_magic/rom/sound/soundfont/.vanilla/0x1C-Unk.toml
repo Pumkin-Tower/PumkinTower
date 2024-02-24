@@ -1,0 +1,128 @@
+#medium_type = "ram" / "unk"     / "cart" / "ddrive"
+#sequence_player = "sfx" / "fanfare" / "bgm"  / "demo"
+medium_type = "cart"
+sequence_player = "bgm"
+[inst]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "G4"
+		release_rate = 174
+		env_rate = [
+			2, 298, 1, -1,
+		]
+		env_level = [
+			32700, 0, 0, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_643"
+			tuning = 1.781798
+		[inst.entry.prim]
+			sample = "Unk_644"
+			tuning = 0.890899
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "D#5"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_612"
+			tuning = 2.378414
+		[inst.entry.prim]
+			sample = "Unk_653"
+			tuning = 0.594604
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_605"
+			tuning = 0.396850
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_382"
+			tuning = 0.333710
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_606"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "C#5"
+		split_lo = "D#4"
+		release_rate = 235
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_602"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_603"
+			tuning = 1.259921
+		[inst.entry.hi]
+			sample = "Unk_604"
+			tuning = 0.629961
+	[[inst.entry]]
+		split_hi = "C#5"
+		split_lo = "D#4"
+		release_rate = 235
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_602"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_603"
+			tuning = 1.259921
+		[inst.entry.hi]
+			sample = "Unk_604"
+			tuning = 0.629961
+

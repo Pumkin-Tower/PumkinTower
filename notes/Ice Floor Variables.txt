@@ -1,0 +1,34 @@
+Ice Floor Variables
+
+Heart Container Chest = 1
+
+Small Key in Ice Block Floor = 2 
+
+Great Fairy Sword = 3
+
+Aegiker Mask = 4
+
+Goron Switch = F
+
+Frozen Deku Flower in room 9: 5
+
+Frozen Deku Flower in room B: 6/7/8
+
+Frozen Deku Flower in room 3: 9
+
+Snowball ice arrow = C
+
+Dead hand Room/Small Key = E
+
+Portcullis/Switch Room5 = A
+
+Portcullis/Switch RoomA = D
+
+Deku Mask = B
+
+Red Potion Bottle = F
+
+Bombchu = 0x10
+
+Deku Mask Portcullis and Switch changed to 0x11
+

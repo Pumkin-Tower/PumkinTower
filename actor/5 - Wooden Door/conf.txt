@@ -1,0 +1,3 @@
+allocation   0x0002
+vram         0x80866800
+ivar         0x8086780C

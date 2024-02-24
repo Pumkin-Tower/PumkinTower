@@ -1,0 +1,12 @@
+Goron Floor Variables
+
+Heart Container Chest = 1
+
+Giant Wallet Chest = 2
+
+Goron Mask = 3
+
+Bottle Chest = 4
+
+metal portcullis shortcut: 1f
+

@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+73         1   0x4102  "leads from starry floor to ice floor"
+48         0   0x4102  "leads from starry floor to red carpet"
+

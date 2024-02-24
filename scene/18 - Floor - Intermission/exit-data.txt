@@ -1,0 +1,7 @@
+scene  spawn   flags   notes
+111        1   0x4102  "leads to starting area"
+52         0   0x4102  "leads to trading post"
+44         0   0x4102  "leads to mountain smithy"
+13         0   0x4102  "leads to curiosity shop"
+73         0   0x4102  "leads to ice floor"
+

@@ -1,0 +1,201 @@
+
+Treasure Chest Item IDs
+Note: Only values <= 0x7F can be used.
+      If you need values >= 0x80, move them into an
+      unused slot and edit actor 6 .c accordingly.
+
+Treasure Chest Info
+   id = 0x0006
+   params = (type << 12) | (itemId << 5) | (openedFlag)
+
+Value    Name
+0x01     Green Rupee (1)
+0x02     Blue Rupee (5)
+0x03     Red Rupee (10)
+0x04     Red Rupee (20)
+0x05     Purple Rupee (50)
+0x06     Silver Rupee (100)
+0x07     Gold Rupee (200)
+0x08     Adult's Wallet
+0x09     Giant's Wallet
+0x0A     Recovery Heart
+0x0B     
+0x0C     Heart Piece
+0x0D     Heart Container
+0x0E     
+0x0F     
+0x10     Recovery Heart
+0x11     Stray Fairy
+0x12     Recovery Heart
+0x13     Recovery Heart
+0x14     Bombs (1)
+0x15     Bombs (5)
+0x16     Bombs (10)
+0x17     Bombs (20)
+0x18     Bombs (30)
+0x19     Deku Stick (1)
+0x1A     Bombchus (10)
+0x1B     Bomb Bag
+0x1C     Big Bomb Bag
+0x1D     Biggest Bomb Bag
+0x1E     Arrows (10)
+0x1F     Arrows (30)
+0x20     Arrows (40)
+0x21     Arrows (40)
+0x22     Bow
+0x23     Big Quiver
+0x24     Biggest Quiver
+0x25     Fire Arrows
+0x26     Ice Arrows
+0x27     Light Arrows
+0x28     Deku Nut
+0x29     Deku Nuts (5)
+0x2A     Deku Nuts (10)
+0x2B     Deku Nuts (30)
+0x2C     Deku Nuts (30)
+0x2D     Deku Nuts (40)
+0x2E     Bombchus (20)
+0x2F     Deku Sticks (20)
+0x30     Deku Sticks (20)
+0x31     Deku Sticks (30)
+0x32     Hylian Shield
+0x33     Mirror Shield
+0x34     Powder Keg
+0x35     Magic Bean
+0x36     Bombchu
+0x37     Kokiri Sword
+0x38     Razor Sword
+0x39     Gilded Sword
+0x3A     Bombchus (5)
+0x3B     Great Fairy's Sword
+0x3C     Small Key
+0x3D     Boss Key
+0x3E     Dungeon Map
+0x3F     Compass
+0x40     Mask of Truth (0x8A) -- Custom
+0x41     Hookshot
+0x42     Lens of Truth
+0x43     Pictograph Box
+0x44     Pictograph Box
+0x45     Recovery Heart
+0x46     Double Magic -- Custom
+0x47     Nothing?
+0x48     Nothing?
+0x49     Nothing?
+0x4A     Nothing?
+0x4B     Nothing?
+0x4C     Ocarina of Time
+0x4D     Nothing?
+0x4E     Nothing?
+0x4F     Nothing?
+0x50     Bomber's Notebook
+0x51     Stone of Agony
+0x52     Ice Trap?
+0x53     Nothing?
+0x54     Nothing?
+0x55     Unknown
+0x56     Unknown
+0x57     Unknown
+0x58     Unknown
+0x59     Bottled Red Potion
+0x5A     Empty Bottle
+0x5B     Red Potion
+0x5C     Green Potion
+0x5D     Blue Potion
+0x5E     Bottled Fairy
+0x5F     Bottled Fairy
+0x60     Bottled Milk
+0x61     Bottled Milk (Half)
+0x62     Fish
+0x63     Bugs
+0x64     Blue Fire
+0x65     Empty Bottle
+0x66     Big Poe
+0x67     Spring Water
+0x68     Hot Spring Water
+0x69     Zora Egg
+0x6A     Bottled Gold Dust
+0x6B     Weird Mushroom
+0x6C     Nothing?
+0x6D     Empty Bottle
+0x6E     Seahorse
+0x6F     Chateau Romani
+0x70     Empty Bottle
+0x71     Gibdo Mask / Pumpkin Mask (0x87) -- Custom
+0x72     Discord Mod Mask (0x83) -- Custom
+0x73     Blast Mask (0x8D) -- Custom
+0x74     Nothing?
+0x75     Nothing?
+0x76     Ice Trap
+0x77     Nothing?
+0x78     Deku Mask
+0x79     Goron Mask
+0x7A     Zora Mask
+0x7B     Fierce Deity Mask
+0x7C     Captain's Hat
+0x7D     Giant's Mask
+0x7E     All-Night Mask
+0x7F     Bunny Hood
+
+=============== VALUES BELOW THIS LINE ARE OUT OF RANGE ===============
+ (Move them into an unused slot above and edit actor 6 .c accordingly)
+
+0x80     Keaton Mask
+0x81     Garo's Mask
+0x82     Romani's Mask
+0x83     Troupe Leader's Mask
+0x84     Postman's Hat
+0x85     Couple's Mask
+0x86     Great Fairy's Mask
+0x87     Gibdo Mask
+0x88     Don Gero's Mask
+0x89     Kamaro's Mask
+0x8A     Mask of Truth
+0x8B     Stone Mask
+0x8C     Bremen Mask
+0x8D     Blast Mask
+0x8E     Mask of Scents
+0x8F     Kafei's Mask
+0x90     Nothing?
+0x91     Chateau Romani
+0x92     Milk
+0x93     Gold Dust
+0x94     Hylian Loach
+0x95     Seahorse
+0x96     Moon's Tear
+0x97     Land Title Deed
+0x98     Swamp Title Deed
+0x99     Mountain Title Deed
+0x9A     Ocean Title Deed
+0x9B     Great Fairy's Sword
+0x9C     Kokiri Sword
+0x9D     Razor Sword
+0x9E     Gilded Sword
+0x9F     Hylian Shield
+0xA0     Room Key
+0xA1     Letter to Mama
+0xA2     Nothing?
+0xA3     Nothing?
+0xA4     Moon's Tear
+0xA5     Nothing?
+0xA6     Nothing?
+0xA7     Nothing?
+0xA8     Nothing?
+0xA9     Empty Bottle
+0xAA     Letter to Kafei
+0xAB     Pendant of Memories
+0xAC     Nothing?
+0xAD     Nothing?
+0xAE     Nothing?
+0xAF     Nothing?
+0xB0     Nothing?
+0xB1     Nothing?
+0xB2     Nothing?
+0xB3     Sun's Mask
+0xB4     Clocktown Map
+0xB5     Woodfall Map
+0xB6     Snowhead Map
+0xB7     Romani Ranch Map
+0xB8     Great Bay Map
+0xB9     Stone Tower Map
+

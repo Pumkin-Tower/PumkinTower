@@ -1,0 +1,1707 @@
+/************************************************************
+ * /Zel/ & z64.me zzrtl script for injecting assets into MM *
+ ************************************************************/
+
+// global settings
+int gIsReleaseMode;
+int gCompilerExists;
+int gIsRunningWindows;
+
+// specific-file patches
+int gGameplayKeepAddr;
+int gLinkAnimetionAddr; // link_animetion
+int gDoRebuildPlayer;
+char *gOvlSelectSceneNameBuffer;
+
+/* MM U */
+enum {
+	TBL_OBJECT               = 0x00C58C80  // object table
+	, TBL_OBJECT_ENTRIES     = 643         // object count
+	, TBL_ACTOR              = 0x00C45510  // actor overlay table
+	, TBL_ACTOR_ENTRIES      = 690         // actor overlay count
+	, TBL_PARTICLE           = 0x00C449E0  // particle overlay table
+	, TBL_PARTICLE_ENTRIES   = 39          // particle overlay count
+	, TBL_SCENE              = 0x00C5A1E0  // scene table
+	, TBL_SCENE_ENTRIES      = 113         // scene count
+	, TBL_DMA                = 0x0001A500  // dma table
+	, TBL_DMA_ENTRIES        = 1568        // dma entries
+	
+	, VRAM_CODE              = 0x800A5AC0  // vram start of code
+	, VROM_CODE              = 0x00B3C000  // vrom start of code
+	, VROM_PLAYER            = 0x00CA7F00  // vrom start of player_actor
+	
+	, DMA_ICON_ITEM_FIELD    = 10          // icon_item_field_static
+	, DMA_ICON_ITEM_DUNGEON                // icon_item_dungeon_static
+	, DMA_ICON_ITEM_GAMEOVER               // icon_item_gameover_static
+	, DMA_MAP_NAME_STATIC                  // map_name_static
+	, DMA_UNK_14                           // [?]
+	
+	, DMA_MAP_I_STATIC       = 15          // map_i_static
+	
+	, DMA_UNK_23             = 23          // [?]
+	, DMA_UNK_24
+
+	, DMA_CODE               = 31          // code
+	
+	, DMA_OVL_PLAYER_ACTOR   = 38          // link's overlay
+	, DMA_OVL_SELECT         = 33          // map select overlay
+
+	, DMA_ACTOR_FIRST        = 39          // En_Test
+	, DMA_ACTOR_LAST         = 648         // En_Rsn
+	, DMA_OBJECT_FIRST       = 649         // gameplay_keep
+	, DMA_OBJECT_LAST        = 1113        // object_gi_mask13
+	, DMA_EXCEPT             = 1127        // clock face days
+	, DMA_SCENE_FIRST        = 1137        // Z2_20SICHITAI2
+	, DMA_SCENE_LAST         = 1537        // Z2_ALLEY_room_0
+	, DMA_UNUSED_FIRST       = 1538        // bump_texture_static
+	, DMA_UNUSED_LAST        = 1567        // null
+	
+	, ACTID_LINK             = 0           // link's actor id
+	
+	, EXT_LINKOFFSET         = 0x00C670D0  // vrom start, end link ofs
+	, EXT_LINKFUNC_HI_INIT   = 0x00BF6FD8  // hi/lo pairs of link funcs (z_player_call.c)
+	, EXT_LINKFUNC_LO_INIT   = 0x00BF6FE0
+	, EXT_LINKFUNC_HI_DEST   = 0x00BF6FE8
+	, EXT_LINKFUNC_LO_DEST   = 0x00BF6FF4
+	, EXT_LINKFUNC_HI_MAIN   = 0x00BF6FFC
+	, EXT_LINKFUNC_LO_MAIN   = 0x00BF7008
+	, EXT_LINKFUNC_HI_DRAW   = 0x00BF7010
+	, EXT_LINKFUNC_LO_DRAW   = 0x00BF701C
+	
+	, EXT_MAPSELECTOFFSET    = 0x00C53E84  // where map select lives
+};
+
+enum bool
+{
+	false = 0
+	, true = 1
+	, compress = 1
+};
+
+int
+file_has_changed(char *fn)
+{
+	char *sumString;
+	char *sumStringOld;
+	char *sumName;
+	char *file;
+	void *fp;
+	int fileSz;
+	int rval;
+	int FNV_PRIME;
+	int FNV_OFFSET_BASIS;
+	int hash;
+	int i;
+	int tmp;
+	int tmpSz;
+	
+	rval = true;
+	FNV_PRIME = 16777619;
+	FNV_OFFSET_BASIS = 2166136261;
+	hash = FNV_OFFSET_BASIS;
+	
+	file = 0;
+	fp = 0;
+	sumName = malloc(256);
+	sumString = malloc(256);
+	
+	sprintf(sumName, "%s.sum", fn);
+	
+	// get previous checksum
+	if (file_exists(sumName) == true)
+		sumStringOld = loadfile(sumName, &fileSz, false);
+	else
+	{
+		sumStringOld = malloc(256);
+		sprintf(sumStringOld, "");
+	}
+	
+	// checksum the file
+	file = loadfile(fn, &fileSz, false);
+	i = 0;
+	tmpSz = 0;
+	while (u32op(i, "<", fileSz))
+	{
+		tmp = file[i];
+		
+		if (tmp != 0x0d && tmp != 0x0a)
+		{
+			hash = hash ^ tmp;
+			hash = hash * FNV_PRIME;
+			tmpSz++;
+		}
+		
+		i++;
+	}
+	free(file);
+	
+	// generate checksum string
+	sprintf(sumString, "%d-%d", hash, tmpSz);
+	
+	// new checksum method
+	/*
+	file = loadfile(fn, &fileSz, false);
+	sumString = sha1(file, fileSz);
+	free(file);
+	*/
+	
+	// write checksum for next time
+	if (strcmp(sumString, sumStringOld))
+	{
+		fp = fopen(sumName, "wb");
+		fprintf(fp, "%s", sumString);
+		fclose(fp);
+	}
+	else
+	{
+		rval = false;
+	}
+	
+	free(sumName);
+	free(sumString);
+	free(sumStringOld);
+	
+	return rval;
+}
+		
+int CountTable(char *fn)
+{
+	struct conf *table;
+	int num;
+	
+	num = 0;
+	table = table.new(fn, "table");
+	while (table.remaining())
+	{
+		num = num + 1;
+		table.next();
+	}
+	
+	return num;
+}
+char *Realloc(char *data, int oldSz, int newSz)
+{
+	char *out;
+	
+	oldSz = u32op(oldSz, "+", 0);
+	newSz = u32op(newSz, "+", 0);
+	
+	out = malloc(newSz);
+	memset(out, 0, newSz);
+	memcpy(out, data, oldSz);
+	
+	free(data);
+	return out;
+}
+
+/* helper function that zeroes out skipped table entries */
+void
+skip_test(struct rom *rom, int index, int *last, int table, int stride)
+{
+	/* skipped one or more entries between invocations */
+	if (index > *last + 1)
+	{
+		/* advance to first skipped entry */
+		*last = *last + 1;
+		
+		/* zero out skipped entries */
+		memset(
+			rom.raw(table + *last * stride)
+			, 0
+			, (index - *last) * stride
+		);
+	}
+	
+	/* update last known index */
+	*last = index;
+}
+
+/* process a single header, updating room command's contents */
+/* returns non-zero if header or provided offset (ofs) is invalid */
+int
+scene_header_rooms(
+	struct rom *rom
+	, char *room_ptrs
+	, int room_ct
+	, int start
+	, int sz
+	, int ofs
+)
+{
+	int rseg;
+	char *b;
+	char *b_end;
+	
+	/* entries pointing to 0 are valid, but not processed */
+	if (!ofs)
+		return 0;
+	
+	/* want only lower 3 bytes of ofs from this point on */
+	rseg = ofs >> 24;
+	ofs = ofs & 0xFFFFFF;
+	
+	/* invalid offset conditions */
+	if (
+		rseg != 0x02     /* invalid ram segment  */
+		|| (ofs & 3)     /* unaligned pointer    */
+		|| ofs + 8 > sz  /* pointer exceeds file */
+	)
+		return 1;
+	
+	b = rom.raw(start + ofs);
+	b_end = rom.raw(start + sz);
+	
+	/* search scene header for room command (0x04) */
+	while (b < b_end && *b != 0x04)
+	{
+		/* end loop conditions */
+		if (
+			*b == 0x14          /* end command     */
+			|| u8(*b) >= 0x20   /* invalid command */
+		)
+			b = b_end;
+		
+		/* advance to next header command */
+		b = b + 8;
+	}
+			
+	/* failed to locate room command, or it is invalid */
+	if (
+		b >= b_end                   /* no room command found */
+		|| b[1] != room_ct           /* invalid room count    */
+		|| get16(b+2)                /* bytes 2, 3 aren't 0   */
+		|| b[4] != 0x02              /* invalid ram segment   */
+		|| (b[7] & 3)                /* unaligned pointer     */
+		|| get24(b+5) + b[1]*8 > sz  /* pointer exceeds file  */
+	)
+		return 1;
+	
+	/* overwrite room pointers */
+	memcpy(rom.raw(start + get24(b+5)), room_ptrs, room_ct * 8);
+	
+	/* debug output */
+	//printf(" > valid header %08X\n", ofs | (rseg << 24));
+	
+	/* valid header */
+	return 0;
+}
+
+void
+room_actorList(struct rom *rom, int roomIndex, char *actorList)
+{
+	struct conf *conf;
+	char *b;
+	int room;
+	int actor;
+	int flags;
+	
+	if (!file_exists("custom-rotations.txt"))
+		return;
+	
+	conf = conf.new("custom-rotations.txt", "table");
+	
+	while (conf.remaining())
+	{
+		room = conf.get_int("room");
+		actor = conf.get_int("actor");
+		
+		if (room == roomIndex)
+		{
+			b = actorList + 16 * actor;
+			flags = 0;
+			
+			if (conf.exists("x") && strcmp(conf.get_str("x"), "~"))
+				put16(b +  8, get16(b +  8) | (conf.get_int("x") << 7));
+			
+			if (conf.exists("y") && strcmp(conf.get_str("y"), "~"))
+				put16(b + 10, get16(b + 10) | (conf.get_int("y") << 7));
+			
+			if (conf.exists("z") && strcmp(conf.get_str("z"), "~"))
+				put16(b + 12, get16(b + 12) | (conf.get_int("z") << 7));
+			
+			if (conf.exists("encode_y") && !strcmp(conf.get_str("encode_y"), "false"))
+				flags = flags | 0x8000;
+			if (conf.exists("encode_x") && !strcmp(conf.get_str("encode_x"), "false"))
+				flags = flags | 0x4000;
+			if (conf.exists("encode_z") && !strcmp(conf.get_str("encode_z"), "false"))
+				flags = flags | 0x2000;
+			
+			put16(b, get16(b) | flags);
+		}
+		
+		conf.next();
+	}
+	
+	conf.free();
+}
+
+void
+scene(struct rom *rom)
+{
+	struct folder *list;
+	struct folder *room;
+	struct conf *conf;
+	struct conf *exitData;
+	int exitDataCount;
+	char *room_ptrs;
+	char *scene;
+	char *name;
+	char *b;
+	char *b_end;
+	char *bin;
+	int binSz;
+	int start;
+	int end;
+	int sz;
+	int index;
+	int msg_id;
+	int config;
+	int room_ct;
+	int index_last;
+	int *tmpIntArray;
+	int tmpIntArrayLen;
+	
+	/* allocate space for 256 room pointers */
+	room_ptrs = malloc(256 * 4 * 2);
+	
+	/* scenes aligned 0x1000 in retail */
+	rom.align(0x1000);
+	
+	/* enter and parse folder */
+	dir_enter("scene");
+	list = list.new(0);
+	if (!list.count())
+		die("scene folder is empty");
+	index_last = -1;
+	
+	/* repeats for every item in the list */
+	while (list.remaining())
+	{
+		/* initialize variables */
+		index = list.index();
+		name = list.name();
+		bin = 0;
+		exitData = 0;
+		
+		/* display progress */
+		printf("\r""scene %d/%d: ", index, list.max());
+		
+		/* ensure we don't exceed table limit */
+		if (index >= TBL_SCENE_ENTRIES)
+			die("scene table limit exceeded");
+		
+		/* enter directory of list entry */
+		dir_enter(name);
+		
+		/* skipped some entries */
+		if (gOvlSelectSceneNameBuffer && index > index_last + 1)
+		{
+			msg_id = index - index_last;
+			
+			while (msg_id > 1)
+			{
+				*gOvlSelectSceneNameBuffer = '\0';
+				gOvlSelectSceneNameBuffer = gOvlSelectSceneNameBuffer + 1;
+				msg_id = msg_id - 1;
+			}
+		}
+		
+		/* parse conf */
+		conf = conf.new("conf.txt", "list");
+		msg_id = conf.get_int("msg_id");
+		config = conf.get_int("config");
+		conf.free();
+		
+		/* new scene routing system */
+		// TODO this doesn't patch alternate headers yet!
+		//      (those are pointed to by 0x18)
+		if (file_exists("exit-data.txt"))
+		{
+			exitData = exitData.new("exit-data.txt", "table");
+			bin = loadfile("*.zscene", &binSz, false);
+			binSz = u32op(binSz, "+", 0); // necessary 64bit support
+			start = binSz;
+			
+			exitDataCount = CountTable("exit-data.txt");
+			if (exitDataCount == 0)
+				die("no exit data");
+			
+			// realloc
+			binSz = binSz + exitDataCount * (2 + 4 + 4) + 12;
+			bin = Realloc(bin, start, binSz);
+			b = bin;
+			b_end = bin + start;
+			
+			// find header command
+			while (b < b_end && *b != 0x14 && *b != 0x13)
+				b = b + 8;
+			
+			if (*b != 0x13)
+				die("failed to find exit data in scene");
+			
+			// tweak header command
+			b[1] = exitDataCount;
+			//printf("exitData at %x\n", b - bin);
+			
+			// copy modified exit data to the end
+			room_ct = get24(b + 5);
+			if (room_ct == 0)
+				die("failed to find exit data in scene");
+			b = bin + room_ct; // moving file read head
+			room_ct = 0;
+			while (room_ct != exitDataCount * 2)
+			{
+				put16(b_end + room_ct, get16(b + room_ct) << 4);
+				room_ct = room_ct + 2;
+			}
+			
+			// write the exits
+			tmpIntArrayLen = exitDataCount;
+			tmpIntArray = int_array(tmpIntArrayLen);
+			sz = 0;
+			while (exitData.remaining())
+			{
+				tmpIntArray[sz] = (b_end + room_ct) - bin;
+				
+				put8(b_end + room_ct + 0, exitData.get_int("scene"));
+				put8(b_end + room_ct + 1, exitData.get_int("spawn"));
+				put16(b_end + room_ct + 2, exitData.get_int("flags"));
+				exitData.next();
+				
+				room_ct = room_ct + 4;
+				sz = sz + 1;
+			}
+			
+			// write array of pointers referencing each exit written in previous step
+			sz = 0;
+			while (sz != tmpIntArrayLen)
+			{
+				put8(b_end + room_ct + 0, 0x02);
+				put24(b_end + room_ct + 1, tmpIntArray[sz]);
+				
+				room_ct = room_ct + 4;
+				sz = sz + 1;
+			}
+			
+			// write pointer to head of array of pointers
+			put32(b_end + room_ct + 0, 0);
+			put32(b_end + room_ct + 8, 0);
+			put8(b_end + room_ct + 4, 0x02);
+			put24(b_end + room_ct + 4 + 1, start + room_ct - tmpIntArrayLen * 4);
+			
+			// update the header
+			b = bin;
+			while (*b != 0x14 && *b != 0x13)
+			{
+				// advance to next header command
+				b = b + 8;
+			}
+			put24(b + 5, start);
+			
+			// cleanup
+			free(tmpIntArray);
+			exitData.free();
+		}
+		
+		/* attempt to inject file */
+		if (bin)
+		{
+			scene = rom.inject_raw(bin, binSz, compress);
+			free(bin);
+		}
+		else
+		{
+			scene = rom.inject("*.zscene", compress);
+		}
+		start = rom.file_start();
+		end = rom.file_end();
+		sz = end - start;
+		
+		/* if scene exists, process title card and rooms */
+		if (scene)
+		{	
+			// add scene name to map select
+			if (gOvlSelectSceneNameBuffer)
+			{
+				// skip prefix
+				tmpIntArrayLen = 0;
+				while (name[tmpIntArrayLen] && name[tmpIntArrayLen] != ' ')
+					tmpIntArrayLen = tmpIntArrayLen + 1;
+				
+				// skip whitespace
+				while (name[tmpIntArrayLen]
+					&& (name[tmpIntArrayLen] == ' '
+						|| name[tmpIntArrayLen] == '-'
+					)
+				)
+					tmpIntArrayLen = tmpIntArrayLen + 1;
+				
+				//printf("%s\n", name + tmpIntArrayLen);
+				
+				// copy at most 39 characters
+				binSz = 0;
+				while (binSz < 39 && name[tmpIntArrayLen])
+				{
+					*gOvlSelectSceneNameBuffer = name[tmpIntArrayLen];
+					
+					gOvlSelectSceneNameBuffer = gOvlSelectSceneNameBuffer + 1;
+					tmpIntArrayLen = tmpIntArrayLen + 1;
+					binSz = binSz + 1;
+				}
+				
+				// and then the zero terminator
+				*gOvlSelectSceneNameBuffer = '\0';
+				gOvlSelectSceneNameBuffer = gOvlSelectSceneNameBuffer + 1;
+			}
+			
+			/* inject rooms */
+			room = room.new("*.zmap");
+			if (!room.count())
+				die("no rooms found");
+			if (room.count() > 127)
+				die("too many (%d) rooms", room.count());
+			room_ct = 0;
+			while (room.remaining())
+			{
+				/* injection failure is unacceptable */
+				if (!rom.inject(room.name(), compress))
+					die("'%s' injection failure", room.name());
+				
+				/* apply sane room defaults */
+				b = rom.raw(rom.file_start());
+				b_end = b + sz;
+				while (b < b_end && *b != 0x14)
+				{
+					/* no wind please */
+					if (*b == 0x05)
+					{
+						b[4] = 0;
+						b[5] = 0;
+						b[6] = 0;
+						b[7] = 0;
+					}
+					
+					/* frozen time please */
+					else if (*b == 0x10)
+						b[6] = 0;
+					
+					/* custom rotations */
+					else if (*b == 0x01)
+						room_actorList(rom, room_ct, rom.raw(rom.file_start() + get24(b+5)));
+					
+					/* advance to next header command */
+					b = b + 8;
+				}
+				
+				/* add to room pointer list */
+				put32(room_ptrs + room_ct * 8    , rom.file_start());
+				put32(room_ptrs + room_ct * 8 + 4, rom.file_end()  );
+				
+				/* proceed to next room */
+				room_ct++;
+				room.next();
+			}
+			room.free();
+			
+			/* update room pointers in first header */
+			if (
+			scene_header_rooms(
+				rom
+				, room_ptrs
+				, room_ct
+				, start
+				, sz
+				, 0x02000000
+			)
+			)
+				die("invalid header");
+			
+			/* locate alternate header command (0x18) */
+			b = rom.raw(start);
+			b_end = b + sz;
+			while (b < b_end && *b != 0x18)
+			{
+				/* end loop conditions */
+				if (
+					*b == 0x14          /* end command     */
+					|| u8(*b) >= 0x20   /* invalid command */
+				)
+					b = b_end;
+				
+				/* advance to next header command */
+				b = b + 8;
+			}
+			
+			/* alternate header command found */
+			if (b < b_end)
+			{
+				/* invalid ram segment */
+				if (b[4] != 0x02)
+					die("0x18 cmd: invalid ram segment %02X", b[4]);
+				
+				/* invalid offset */
+				if (
+					(b[7] & 3)              /* unaligned pointer     */
+					|| get24(b+5) + 4 > sz  /* pointer exceeds file  */
+				)
+					die("0x18 cmd: invalid offset %08X", get32(b+4));
+				
+				/* grab alternate header list */
+				b = rom.raw(start + get24(b+5));
+				
+				/* process list */
+				while (b < b_end)
+				{
+					/* scene header failed in some way; end of list */
+					if (
+					scene_header_rooms(
+						rom
+						, room_ptrs
+						, room_ct
+						, start
+						, sz
+						, get32(b)
+					)
+					)
+						b = b_end;
+					
+					/* advance to next entry */
+					b = b + 4;
+				}
+			}
+		}
+		else if (gOvlSelectSceneNameBuffer)
+		{
+			*gOvlSelectSceneNameBuffer = '\0';
+			gOvlSelectSceneNameBuffer = gOvlSelectSceneNameBuffer + 1;
+		}
+		
+		/* zero out any skipped entries */
+		skip_test(rom, index, &index_last, TBL_SCENE, 16);
+		//index_last = index; // uncomment this line if you comment out the above line
+		
+		/* go to table entry */
+		rom.seek(TBL_SCENE + index * 16);
+		
+		/* write its table entry */
+		rom.write32(start);  /* vrom start          */
+		rom.write32(end);    /* vrom end            */
+		rom.write16(msg_id); /* area name text      */
+		rom.write8(0);       /* padding             */
+		rom.write8(config);  /* texture animation   */
+		rom.write32(0);      /* padding             */
+		
+		/* leave directory */
+		dir_leave();
+		
+		/* go to next entry in list */
+		list.next();
+	}
+	
+	/* cleanup */
+	free(room_ptrs);
+	list.free();
+	dir_leave();
+	printf("success!\n");
+}
+
+void
+archive(struct rom *rom, char *codec)
+{
+	char *filename;
+	char *outname;
+	char *name;
+	int dma;
+	int i;
+	
+	/* allocate buffer */
+	outname = malloc(64);
+	
+	/* archive filenames */
+	filename =
+		"map_i_static\0"         /* dungeon room minimaps       */
+		"map_grand_static\0"     /* overworld minimaps          */
+		"item_name_static\0"     /* pause menu item names       */
+		"spot_name_static\0"     /* pause menu location names   */
+		"icon_item_static\0"     /* icons + pause menu assets   */
+		"icon_item_24_static\0"  /* quest status, dungeon icons */
+		"unused\0"               /* unused/deleted archive      */
+		"icon_bomber_static\0"   /* bomber's notebook icons     */
+	;
+	
+	/* enter and parse folder */
+	dir_enter("archive");
+	
+	i = 0;
+	while (i < 8)
+	{
+		name = substring(filename, i);
+		
+		/* if name is not "unused" */
+		if (strcmp(name, "unused"))
+		{
+			/* z64yartool magic */
+			if (file_exists("z64yartool.exe"))
+			{
+				sprintf(outname, "z64yartool build %s.txt", name);
+				
+				system(outname);
+			}
+			
+			/* create out file name with extension */
+			sprintf(outname, "%s.yar", name);
+	
+			/* inject file file */
+			dma = i + DMA_MAP_I_STATIC;
+			rom.inject_dma(outname, false, dma);
+			
+			/* if codec is not yaz, it must be rearchived */
+			if (strcmp(codec, "yaz"))
+			{
+				printf("begin rearchiving %s...\n", name);
+				rom.dma_rearchive_one(dma, "yaz", codec, true);
+			}
+		}
+		
+		/* advance to next */
+		i++;
+	}
+	
+	/* cleanup */
+	free(outname);
+	dir_leave();
+}
+
+void
+rom_inject_bin(struct rom *rom, int offset, char *filename)
+{
+	char *file;
+	int fileSz;
+	int i;
+	
+	/* inject file into rom */
+	rom.seek(offset);
+	file = loadfile(filename, &fileSz, true);
+	i = 0;
+	while (u32op(i, "<", fileSz))
+	{
+		rom.write8(file[i]);
+		i++;
+	}
+	
+	/* cleanup */
+	free(file);
+}
+
+void
+rom_inject_recipe(struct rom *rom, int offset, char *name)
+{
+	char *filename;
+	char *cmd;
+	char *file;
+	int fileSz;
+	int dma;
+	int i;
+	
+	/* allocate buffer */
+	cmd = malloc(256);
+	
+	/* enter and parse folder */
+	dir_enter("archive");
+	
+	/* convert to .yar */
+	sprintf(cmd, "z64yartool build %s.txt", name);
+	system(cmd);
+	
+	/* convert .yar to .bin */
+	sprintf(cmd, "z64yartool unyar %s.yar %s.bin", name, name);
+	system(cmd);
+	
+	/* inject file into rom */
+	rom.seek(offset);
+	sprintf(cmd, "%s.bin", name);
+	file = loadfile(cmd, &fileSz, true);
+	i = 0;
+	while (u32op(i, "<", fileSz))
+	{
+		rom.write8(file[i]);
+		i++;
+	}
+	
+	/* cleanup */
+	free(file);
+	free(cmd);
+	dir_leave();
+}
+
+void
+object(struct rom *rom)
+{
+	struct folder *list;
+	char *name;
+	int index_last;
+	int index;
+	
+	/* objects aligned 0x1000 in retail */
+	rom.align(0x1000);
+	
+	/* enter and parse folder */
+	dir_enter("object");
+	list = list.new(0);
+	if (!list.count())
+		die("object folder is empty");
+	index_last = -1;
+	
+	/* repeats for every item in the list */
+	while (list.remaining())
+	{
+		/* initialize variables */
+		index = list.index();
+		name = list.name();
+		
+		/* display progress */
+		printf("\r""object %d/%d: ", index, list.max());
+		
+		/* ensure we don't exceed table limit */
+		if (index >= TBL_OBJECT_ENTRIES)
+			die("object table limit exceeded");
+		
+		/* enter directory of list entry */
+		dir_enter(name);
+		
+		/* attempt to inject file */
+		rom.inject("*.zobj", compress);
+		
+		/* zero out any skipped entries */
+		skip_test(rom, index, &index_last, TBL_OBJECT, 8);
+		
+		/* go to table entry */
+		rom.seek(TBL_OBJECT + index * 8);
+		
+		/* write its table entry */
+		/* if rom.inject() failed, file offsets return 0 */
+		rom.write32(rom.file_start());
+		rom.write32(rom.file_end());
+		
+		/* gameplay_keep */
+		if (index == 1)
+			gGameplayKeepAddr = rom.file_start();
+		
+		/* leave directory */
+		dir_leave();
+		
+		/* go to next entry in list */
+		list.next();
+	}
+	
+	/* cleanup */
+	list.free();
+	dir_leave();
+	printf("success!\n");
+}
+
+void
+actor(struct rom *rom)
+{
+	struct folder *list;
+	struct conf *conf;
+	char *name;
+	char *ovl;
+	char *ss;
+	char *zzrtlInitVars;
+	int zzrtlInitVarsSz;
+	int index_last;
+	int index;
+	int vram;
+	int vram_end;
+	int ivar;
+	int atype;
+	int novlStatus;
+	
+	/* actors aligned 0x10 in retail */
+	rom.align(0x10);
+	
+	/* enter and parse folder */
+	dir_enter("actor");
+	list = list.new(0);
+	if (!list.count())
+		die("actor folder is empty");
+	index_last = -1;
+	
+	/* repeats for every item in the list */
+	while (list.remaining())
+	{
+		/* initialize variables */
+		index = list.index();
+		name = list.name();
+		
+		/* display progress */
+		printf("\r""actor %d/%d: ", index, list.max());
+		
+		/* ensure we don't exceed table limit */
+		if (index >= TBL_ACTOR_ENTRIES)
+			die("actor table limit exceeded");
+		
+		/* enter directory of list entry */
+		dir_enter(name);
+			
+		/* open conf */
+		conf = conf.new("conf.txt", "list");
+		
+		/* file exists */
+		zzrtlInitVars = 0;
+		if (gCompilerExists && file_exists("actor.c") && (file_has_changed("actor.c") || !file_exists("ZzrtlInitVars.txt")
+			|| (file_exists("credits.txt") && file_has_changed("credits.txt")) // look in objects/286/credits.txt.zobj
+			|| (index == 0 && gDoRebuildPlayer) // player rebuild
+		))
+		{
+			// just in case build fails at any step, ensure it retries on next run
+			system("rm ZzrtlInitVars.txt");
+			system("del ZzrtlInitVars.txt");
+			
+			// commit hash for player
+			if (index == 0)
+			{
+				system("git rev-parse --short HEAD > commit-hash.h");
+				system("python3 prepend-0x.py commit-hash.h");
+			}
+			
+			// build
+			if (gIsReleaseMode && system("..\\..\\z64rom\\tools\\mips64-binutils\\bin\\mips64-gcc -G 0 -nostdinc -DNDEBUG -I..\\..\\z64rom\\include\\z64hdr\\mm -Os -s --std=gnu99 -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses -funsigned-char -mno-memcpy -c actor.c -o tmp.o"))
+				die("build failed");
+			if (!gIsReleaseMode && system("..\\..\\z64rom\\tools\\mips64-binutils\\bin\\mips64-gcc -G 0 -nostdinc -I..\\..\\z64rom\\include\\z64hdr\\mm -Os -s --std=gnu99 -march=vr4300 -mfix4300 -mabi=32 -mno-abicalls -mdivide-breaks -fno-zero-initialized-in-bss -fno-toplevel-reorder -ffreestanding -fno-common -fno-merge-constants -mno-explicit-relocs -mno-split-addresses -funsigned-char -mno-memcpy -c actor.c -o tmp.o"))
+				die("build failed");
+			
+			// link
+			if (system("..\\..\\z64rom\\tools\\mips64-binutils\\bin\\mips64-ld -o tmp.elf tmp.o -L ..\\..\\z64rom\\include\\z64hdr\\common -L ..\\..\\z64rom\\include\\z64hdr\\mm_u10 -T z64hdr.ld --emit-relocs"))
+				die("linking failed");
+			
+			// player
+			if (index == 0)
+			{
+				novlStatus = system("..\\..\\z64rom\\tools\\novl -v -c -A 0x80A00000 -o ..\\..\\misc\\ovl_player_actor.zovl tmp.elf");
+				
+				if (novlStatus)
+					die("conversion to overlay failed");
+			}
+			// map select
+			else if (index == 120)
+			{
+				novlStatus = system("..\\..\\z64rom\\tools\\novl -v -c -A 0x80800910 -o ..\\..\\misc\\ovl_select.zovl tmp.elf");
+				
+				if (novlStatus)
+					die("conversion to overlay failed");
+			}
+			// convert to overlay
+			else if (system("..\\..\\z64rom\\tools\\novl -v -c -A 0x80A00000 -o actor.zovl tmp.elf"))
+				die("conversion to overlay failed");
+			
+			// get ZzrtlInitVars
+			system("..\\..\\z64rom\\tools\\mips64-binutils\\bin\\mips64-objdump -t tmp.elf | findstr ZzrtlInitVars > ZzrtlInitVars.txt");
+		}
+		
+		/* use ZzrtlInitVars, if applicable */
+		if (index && index != 120 && file_exists("ZzrtlInitVars.txt"))
+			zzrtlInitVars = loadfile("ZzrtlInitVars.txt", &zzrtlInitVarsSz, false);
+		
+		/* attempt to inject file */
+		ovl = rom.inject("*.zovl", compress);
+		
+		/* overlay loaded successfully */
+		if (ovl)
+		{
+			/* calculate overlay size */
+			vram_end = ovl_vram_sz(ovl, rom.file_sz());
+			
+			/* fall back to DEAD BEEF method if no ivar in conf */
+			if (!conf.exists("ivar"))
+			{
+				/* locate initialization variables */
+				ss =
+				find_bytes_stride(
+					ovl
+					, rom.file_sz()
+					, "DEAD****************BEEF"
+					, 4
+					, true  /* fatal error if more than one occurrence */
+				);
+				
+				/* failed to find any */
+				if (!ss)
+					die("failed to locate DEAD BEEF");
+				
+				/* initialization variable offset relative to overlay */
+				ivar = ss - ovl;
+				
+				/* overwrite 0xDEAD with index */
+				put16(ss, index);
+				
+				/* overwrite 0xBEEF with 0x0000 */
+				put16(ss + 10, 0);
+			}
+		}
+		
+		/* no overlay found */
+		else
+		{
+			vram_end = 0;
+			ivar = 0;
+		}
+		
+		/* parse conf */
+		vram = conf.get_int("vram");
+		atype = conf.get_int("allocation");
+		if (conf.exists("ivar"))
+			ivar = conf.get_int("ivar");   // ivar override
+		else
+			ivar = vram + ivar; // make relative to vram
+		conf.free();
+		
+		// override
+		if (zzrtlInitVars)
+		{
+			vram = 0x80A00000;
+			sscanf(zzrtlInitVars, "%x", &ivar);
+		}
+		
+		/* make overlay size relative to vram, thus vram_end */
+		vram_end = vram + vram_end;
+		
+		/* zero out any skipped entries */
+		skip_test(rom, index, &index_last, TBL_ACTOR, 32);
+		
+		/* go to table entry */
+		rom.seek(TBL_ACTOR + index * 32);
+		
+		/* write its table entry */
+		/* if rom.inject() failed, file offsets return 0 */
+		rom.write32(rom.file_start());  /* vrom start  */
+		rom.write32(rom.file_end());    /* vrom end    */
+		rom.write32(vram);              /* vram start  */
+		rom.write32(vram_end);          /* vram end    */
+		rom.write32(0);                 /* ram address */
+		rom.write32(ivar);              /* init vars   */
+		rom.write32(0);                 /* name addr   */
+		rom.write16(atype);             /* alloc type  */
+		
+		/* leave directory */
+		dir_leave();
+		
+		/* go to next entry in list */
+		list.next();
+		
+		if (zzrtlInitVars)
+			free(zzrtlInitVars);
+	}
+	
+	/* cleanup */
+	list.free();
+	dir_leave();
+	printf("success!\n");
+}
+
+void
+actor_clean()
+{
+	struct folder *list;
+	
+	/* only clean if there is a compiler available to do a new build */
+	if (!gCompilerExists)
+		return;
+	
+	/* enter and parse folder */
+	dir_enter("actor");
+	list = list.new(0);
+	if (!list.count())
+		die("actor folder is empty");
+	
+	/* repeats for every item in the list */
+	while (list.remaining())
+	{
+		/* enter directory of list entry */
+		dir_enter(list.name());
+		
+		if (file_exists("actor.c.sum"))
+			system("echo clean > actor.c.sum");
+		
+		/* leave directory */
+		dir_leave();
+		
+		/* go to next entry in list */
+		list.next();
+	}
+	
+	/* cleanup */
+	list.free();
+	dir_leave();
+	printf("success!\n");
+}
+
+void
+particle(struct rom *rom)
+{
+	struct folder *list;
+	struct conf *conf;
+	char *name;
+	char *ovl;
+	char *ss;
+	int index_last;
+	int index;
+	int vram;
+	int vram_end;
+	int ivar;
+	int unk;
+	
+	/* particles aligned 0x10 in retail */
+	rom.align(0x10);
+	
+	/* enter and parse folder */
+	dir_enter("particle");
+	list = list.new(0);
+	if (!list.count())
+		die("particle folder is empty");
+	index_last = -1;
+	
+	/* repeats for every item in the list */
+	while (list.remaining())
+	{
+		/* initialize variables */
+		index = list.index();
+		name = list.name();
+		
+		/* display progress */
+		printf("\r""particle %d/%d: ", index, list.max());
+		
+		/* ensure we don't exceed table limit */
+		if (index >= TBL_PARTICLE_ENTRIES)
+			die("particle table limit exceeded");
+		
+		/* enter directory of list entry */
+		dir_enter(name);
+		
+		/* attempt to inject file */
+		ovl = rom.inject("*.zovl", compress);
+		
+		/* overlay loaded successfully */
+		if (ovl)
+		{
+			/* parse conf */
+			conf = conf.new("conf.txt", "list");
+			vram = conf.get_int("vram");
+			unk = conf.get_int("unknown");
+			conf.free();
+			
+			/* calculate vram end */
+			vram_end = vram + ovl_vram_sz(ovl, rom.file_sz());
+			
+			/* locate initialization variables (tuna method) */
+			ss =
+			find_text_stride(
+				ovl
+				, rom.file_sz()
+				, "tuna"
+				, 4
+				, true  /* fatal error if more than one occurrence */
+			);
+			
+			/* failed to find any */
+			if (!ss)
+				die("failed to locate 'tuna'");
+			
+			/* note initialization variable offset */
+			ivar = vram + (ss - ovl);
+			
+			/* overwrite 'tuna' with index */
+			put32(ss, index);
+		}
+		
+		/* no overlay found */
+		else
+		{
+			vram = 0;
+			vram_end = 0;
+			unk = 0;
+			ivar = 0;
+		}
+		
+		/* zero out any skipped entries */
+		skip_test(rom, index, &index_last, TBL_PARTICLE, 28);
+		
+		/* go to table entry */
+		rom.seek(TBL_PARTICLE + index * 28);
+		
+		/* write its table entry */
+		/* if rom.inject() failed, file offsets return 0 */
+		rom.write32(rom.file_start());  /* vrom start  */
+		rom.write32(rom.file_end());    /* vrom end    */
+		rom.write32(vram);              /* vram start  */
+		rom.write32(vram_end);          /* vram end    */
+		rom.write32(0);                 /* ram address */
+		rom.write32(ivar);              /* init vars   */
+		rom.write32(unk);               /* unknown     */
+		
+		/* leave directory */
+		dir_leave();
+		
+		/* go to next entry in list */
+		list.next();
+	}
+	
+	/* cleanup */
+	list.free();
+	dir_leave();
+	printf("success!\n");
+}
+
+/* helper function that writes lui, addiu pair into rom;
+   hi and lo must point to lui and addiu opcodes, respectively */
+void
+split_ptr(struct rom *rom, int ptr, int hi, int lo)
+{
+	int v;
+	int tell;
+
+	/* back up rom address */
+	tell = rom.tell();
+
+	/* update hi part of pointer */
+	rom.seek(hi + 2);
+	v = u16(ptr >> 16);
+	if (u16(ptr) & 0x8000)
+		v++;
+	rom.write16(v);
+
+	/* update low part of pointer */
+	rom.seek(lo + 2);
+	rom.write16(ptr);
+
+	/* restore rom address */
+	rom.seek(tell);
+}
+
+/* inject ovl_player_actor that has been reassembled with CAT */
+void
+ovl_player_actor(struct rom *rom)
+{
+	char *fn;
+	char *ovl;
+	char *ss;
+	int vram;
+
+	fn = "misc/ovl_player_actor.zovl";
+	ovl = rom.inject(fn, compress);
+	if (!ovl)
+		die("could not open '%s'", fn);
+
+	/* update table entry */
+	rom.seek(EXT_LINKOFFSET);
+	rom.write32(rom.file_start());
+	rom.write32(rom.file_end());
+	vram = 0x80A00000; rom.write32(vram); //vram = rom.read32();
+	vram = u32op(vram, "+", ovl_vram_sz(ovl, rom.file_sz()));
+	rom.write32(vram);
+	
+	/* find function pointers */
+	ss = find_text_stride(
+		ovl
+		, rom.file_sz()
+		, "PlayerFunctions"
+		, 4
+		, true  /* fatal error if more than one occurrence */
+	);
+	if (!ss)
+		die("failed to locate 'PlayerFunctions'");
+
+	/* update function pointers */
+	ss = ss + 16;
+	split_ptr(rom, get32(ss +  0), EXT_LINKFUNC_HI_INIT, EXT_LINKFUNC_LO_INIT);
+	split_ptr(rom, get32(ss +  4), EXT_LINKFUNC_HI_DEST, EXT_LINKFUNC_LO_DEST);
+	split_ptr(rom, get32(ss +  8), EXT_LINKFUNC_HI_MAIN, EXT_LINKFUNC_LO_MAIN);
+	split_ptr(rom, get32(ss + 12), EXT_LINKFUNC_HI_DRAW, EXT_LINKFUNC_LO_DRAW);
+}
+
+/* inject ovl_select that has been compiled with mips64-binutils */
+void
+ovl_select(struct rom *rom)
+{
+	char *fn;
+	char *ovl;
+	char *ss;
+	int vram;
+
+	fn = "misc/ovl_select.zovl";
+	ovl = rom.inject(fn, compress);
+	if (!ovl)
+		die("could not open '%s'", fn);
+
+	/* update table entry */
+	rom.seek(EXT_MAPSELECTOFFSET);
+	rom.write32(rom.file_start());
+	rom.write32(rom.file_end());
+	vram = 0x80800910; rom.write32(vram);
+	vram = u32op(vram, "+", ovl_vram_sz(ovl, rom.file_sz()));
+	rom.write32(vram);
+	
+	/* find function pointers */
+	ss = find_text_stride(
+		ovl
+		, rom.file_sz()
+		, "SelectFunctions"
+		, 4
+		, true  /* fatal error if more than one occurrence */
+	);
+	if (!ss)
+		die("failed to locate 'SelectFunctions'");
+
+	/* update function pointers */
+	ss = ss + 16;
+	rom.write32(0);
+	rom.write32(get32(ss + 0));
+	rom.write32(get32(ss + 4));
+	
+	/* setup name buffer */
+	gOvlSelectSceneNameBuffer = find_text_stride(
+		ovl
+		, rom.file_sz()
+		, "SceneNameBuffer"
+		, 4
+		, true  /* fatal error if more than one occurrence */
+	);
+}
+
+void text(struct rom *rom)
+{
+	void *tbl;
+	void *bin;
+	char *b;
+	int tblSz;
+	int binSz;
+	int i;
+	
+	// load files
+	tbl = loadfile("MessageTable.tbl", &tblSz, false);
+	bin = loadfile("StringData.bin", &binSz, false);
+	
+	// assertions
+	if (u32op(binSz, ">", 0x699F0))
+		die("StringData.bin too big, please keep size <= 0x699f0");
+	if (u32op(tblSz, ">", 0x8F70))
+		die("MessageTable.tbl too big, please keep size <= 0x8F70");
+	
+	// write tbl
+	b = rom.raw(0xC5D0D8);
+	i = 0;
+	while (u32op(i, "<", tblSz))
+	{
+		b[i] = tbl[i];
+		i++;
+	}
+	
+	// write bin
+	b = rom.raw(0xAD1000);
+	i = 0;
+	while (u32op(i, "<", binSz))
+	{
+		b[i] = bin[i];
+		i++;
+	}
+	
+	// cleanup
+	free(tbl);
+	free(bin);
+}
+
+void zel_magic(struct rom *rom)
+{
+	if (!gIsRunningWindows)
+		return;
+	
+	/**
+	 * Begin
+	 */
+	dir_enter("zel_magic");
+	rom.align(0x10);
+	if (system(".\\z64rom --audio-only --build"))
+		die("error compiling audio banks");
+
+	/**
+	 * Add audio files
+	 */
+	rom.inject_mode("earliest");
+
+	rom_inject_bin(rom, 0xC776C0, "table_font.bin");
+	rom_inject_bin(rom, 0xC78380, "table_sample.bin");
+	rom_inject_bin(rom, 0xC77B70, "table_seq.bin");
+	rom_inject_bin(rom, 0xC77960, "table_seqfont.bin");
+
+	rom.inject("soundfonts.bin", false);
+	split_ptr(rom, rom.file_start(), 0xC273B0, 0xC273B4);
+
+	rom.inject("sequences.bin", false);
+	split_ptr(rom, rom.file_start(), 0xC2739C, 0xC273A0);
+	
+	rom.inject("samples.bin", false);
+	split_ptr(rom, rom.file_start(), 0xC273C4, 0xC273C8);
+
+	/**
+	 * Cleanup
+	 */
+	rom.inject_mode(0);
+	dir_leave();
+}
+
+void
+link_animetion(struct rom *rom)
+{
+	rom.align(0x10);
+	rom.inject_mode("earliest");
+	
+	rom.inject("zel_magic/link_animetion", false);
+	gLinkAnimetionAddr = rom.file_start();
+	split_ptr(rom, gLinkAnimetionAddr, 0xBCBF28, 0xBCBF30);
+	
+	rom.inject_mode(0);
+}
+
+// XXX expects rom to not be compressed yet
+void
+rom_save_truncated(struct rom *rom, char *decfilename, char *filename)
+{
+	int end;
+	int breakLoop;
+	int mib;
+	char *cmd;
+	
+	cmd = malloc(2048);
+	mib = 1024 * 1024;
+	
+	end = rom.size();
+	breakLoop = false;
+	while (end > 8 && !breakLoop)
+	{
+		end = end - 4;
+		
+		rom.seek(end);
+		if (rom.read32() != 0)
+			breakLoop = true;
+	}
+	
+	// align to 1mib
+	if (end % mib)
+		end = end + (mib - (end % mib));
+	
+	printf("end %08x\n", end);
+	sprintf(cmd, "head -c %d \"%s\" > \"%s\"", end, decfilename, filename);
+	system(cmd);
+	
+	free(cmd);
+}
+
+void check_rebuild_player(char *mode)
+{
+	char *modeOld;
+	char *modeName;
+	void *modeFile;
+	int fileSz;
+	
+	modeName = "prev-build.txt";
+	
+	if (!mode)
+		mode = "unset";
+	
+	gDoRebuildPlayer = false;
+	modeOld = loadfile(modeName, &fileSz, true);
+	
+	// build mode has changed, so guarantee player is rebuilt
+	if (modeOld == 0 || strcmp(mode, modeOld))
+		gDoRebuildPlayer = true;
+	
+	modeFile = fopen(modeName, "wb");
+	fprintf(modeFile, "%s", mode);
+	
+	if (modeOld)
+		free(modeOld);
+}
+
+int
+main(int argc, char **argv)
+{
+	struct rom *rom;
+	struct conf *rpl;
+	char *name;
+	char *comp;
+	char *codec;
+	int i;
+	
+	// zero initialize
+	gOvlSelectSceneNameBuffer = 0;
+	check_rebuild_player(argv[1]);
+	
+	// hacky way to determine is running windows
+	gIsRunningWindows = true;//system("uname") < 0;
+	if (!gIsRunningWindows)
+		printf("warning: not running in windows (falling back to vanilla audio)");
+	
+	// only compile actors if the user has the necessary tools
+	gCompilerExists = file_exists("z64rom/tools/novl") || file_exists("z64rom/tools/novl.exe");
+	if (!gCompilerExists)
+		printf("warning: could not find z64rom/tools (no .c files will be compiled)\n");
+	
+	/* load .zzrpl */
+	rpl = rpl.new("*.zzrpl", "list");
+	name = rpl.get_str("baserom");
+	
+	/* set compression codec */
+	codec = "yaz";
+	
+	/* clean up cached build files if --clean argument is given */
+	if (argc > 1 && !strcmp(argv[1], "--clean"))
+	{
+		actor_clean();
+		return 0;
+	}
+	
+	/* release mode */
+	gIsReleaseMode = (argc > 1 && !strcmp(argv[1], "--release"));
+	
+	/* load base rom */
+	rom = rom.new(name);
+	
+	/* compressed roms are < 64 mb */
+	if (rom.size() < 0x04000000)
+		die("cannot inject into compressed rom, what have you done");
+	
+	/* dma table (dmadata) offset and number of entries */
+	rom.dma(TBL_DMA, TBL_DMA_ENTRIES);
+	
+	/* mark files for compression */
+	rom.dma_compress(DMA_ICON_ITEM_FIELD, DMA_UNK_14     , true);
+	rom.dma_compress(DMA_UNK_23         , DMA_UNK_24     , true);
+	rom.dma_compress(DMA_CODE           , TBL_DMA_ENTRIES, true);
+	
+	/* compression must be disabled on this file */
+	rom.dma_compress_one(DMA_EXCEPT, false);
+	
+	/* mark files (and dma entries) for overwriting */
+	rom.dma_queue(DMA_ACTOR_FIRST , DMA_ACTOR_LAST ); /* actors, fx */
+	rom.dma_queue(DMA_OBJECT_FIRST, DMA_OBJECT_LAST); /* objects    */
+	rom.dma_queue(DMA_SCENE_FIRST , DMA_SCENE_LAST ); /* scenes     */
+	rom.dma_queue(DMA_UNUSED_FIRST, DMA_UNUSED_LAST); /* unused     */
+
+	/* extras */
+	rom.dma_queue_one(DMA_OVL_PLAYER_ACTOR); /* link's overlay */
+	rom.dma_queue_one(DMA_OVL_SELECT);       /* map select */
+	rom.dma_queue_one(7);                    /* link_animetion */
+	rom.dma_queue(3, 5);                     /* audio files */
+
+	/* finished initializing dma settings */
+	rom.dma_ready();
+	
+	/* construct rom */
+	link_animetion(rom);
+	zel_magic(rom);
+	archive(rom, codec);
+	actor(rom);
+	ovl_player_actor(rom);
+	ovl_select(rom);
+	particle(rom);
+	object(rom);
+	scene(rom);
+
+	/* misc patches */
+	text(rom);
+	rom_inject_recipe(rom, 0xAC0000, "do_action_static");
+	rom.cloudpatch(0, "patch/FierceDeityAnywhere.txt");
+	if (gIsReleaseMode == false)
+		rom.cloudpatch(0, "patch/NoCrashDebuggerButtonCombo.txt");
+	rom.cloudpatch(0, "patch/IconsOnB.txt");
+	rom.cloudpatch(0, "patch/code1.txt");
+	rom.cloudpatch(gLinkAnimetionAddr, "patch/FishingAnims.txt");
+	rom.cloudpatch(gGameplayKeepAddr, "patch/FishingAnimsKeep.txt");
+	// Pumkin Tower and tagline
+	rom_inject_bin(rom, 0x01eca000, "pumkin-tower.i4.bin");
+	rom_inject_bin(rom, 0x01ed2000, "pumkin-tower-tagline.i4.bin");
+	rom_inject_bin(rom, 0x01eca000 + 0x2000, "pumkin-tower.i4.bin"); // day 2
+	// Discord Mod Mask GI
+	rom.seek(0xC518AC);
+	rom.write32(0x06002AA0);
+	rom.write32(0x06003248);
+	// Potleaf GI
+	rom.seek(0xC51E04);
+	rom.write32(0x060025D0);
+	// Owl Mask GI
+	rom.seek(0xC51F90);
+	rom.write32(0x06002C90);
+	rom.write32(0x060033C8);
+	// Pumkin Mask GI
+	rom.seek(0xC525C0);
+	rom.write32(0x06002168);
+	rom.write32(0x06001D90);
+	// Pumkin Mask DL Pointer
+	
+	// fix the sDoorLocksInfo[0] DL pointers
+	rom.seek(0xC45328);
+	rom.write32(0x05012960); // gDoorChainDL
+	rom.write32(0x050129f0); // gDoorLockDL
+	
+	// Eyes of Owls GI
+	rom.seek(0xC51D50);
+	rom.write32(0x060019d0);
+	rom.write32(0x06002350);
+	// Owl Mask Field
+	rom.seek(0xC57060);
+	rom.write32(0x0A002C90);
+	// Discord Mod Mask Field
+	rom.seek(0xC5707C);
+	rom.write32(0x0A002620);
+	// Pumkin Mask Field
+	rom.seek(0xC5708C);
+	rom.write32(0x0A001D90);
+	// Discord Mod Mask Tears or Somethin'
+	rom.seek(0xC570D0);
+	rom.write32(0x44834000);
+	rom.write32(0xC3C80000);
+	rom.write32(0x43960000);
+	rom.write32(0x44834000);
+	rom.write32(0xC3C80000);
+	rom.write32(0xC3960000);
+	// TODO identify what this is (not used?)
+	//rom.seek(0xE6F510);
+	//rom.write32(0xE60A0001);
+	//rom.write32(0xA04E014B);
+	// skip spinning N64 logo
+	if (gIsReleaseMode == false)
+	{
+		rom.seek(0x0C7A53F);
+		rom.write8(0x00);
+	}
+	// Joe Biden Mask GI
+	rom.seek(0xC51F24);
+	rom.write32(0x06001030);
+	rom.write32(0x06001030);
+	// Joe Biden Mask Field
+	rom.seek(0xC570A8);
+	rom.write32(0x0A001030);
+
+	
+
+	/* write built rom */
+	rom.save("build.z64");
+	
+	/* compress rom only if --compress argument is given */
+	if (gIsReleaseMode || (argc > 1 && !strcmp(argv[1], "--compress")))
+	{
+		// XXX expects rom to not be compressed yet
+		rom_save_truncated(rom, "build.z64", "build-truncated.z64");
+		
+		rom.compress(codec, 50);
+		
+		/* write compressed rom */
+		rom.save(new_string("build-", codec, ".z64", 0));
+	}
+	
+	/* cleanup */
+	rom.free();
+	rpl.free();
+	return 0;
+}

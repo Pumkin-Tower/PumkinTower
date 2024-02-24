@@ -1,0 +1,74 @@
+
+Baby Dodongo
+  Actor   0013
+  Object  001E
+
+Dead Hand
+  Actor   001F
+  Object  001B
+
+Dead Hand's Hand
+  Actor   0023
+  Object  001B
+
+Flare Dancer
+  Actor   0025
+  Object  001F
+
+Flare Dancer Fire (internal)
+  Actor   0029
+  Object  001F
+
+Flare Dancer Core (internal)
+  Actor   002C
+  Object  001F
+
+Torch Slug
+  Actor   002E
+  Object  0023
+  Notes
+    - params 0xffff or 0x0000 for a regular Torch Slug
+    - param structure: 00ab
+       - a: use non-zero value for ceiling slug
+       - b: use non-zero value for Cryo Slug
+    - example: 0x0011 is a Cryo Slug that drops from the ceiling
+    - example: 0x0010 is a Torch Slug that drops from the ceiling
+    - example: 0x0001 is a standard Cryo Slug
+    - (ceiling slugs are intended to be placed near the ceiling)
+
+Rat
+  Actor   0030
+  Object  002B
+
+Pols Voice
+  Actor   0031
+  Object  002C
+
+Stalfos
+  Actor   0040
+  Object  002E
+  Notes
+   - please note that this works differently from oot stalfos
+   - params can be one of the following:
+       0000 -- invisible (lens of truth), mini-boss music
+       0001 -- rises from ground, mini-boss music
+       0003 -- drops from above when approached
+   - set the uppermost param bit to make it pair to all other stalfos that also
+     have their uppermost param bit set, that's params |= 0x8000
+     (for example: if you want two stalfos that rise from the ground, set params to 8001 for each)
+     (you can also do this with invisible stalfos, e.g. 8000 for each)
+     (or have one invisible and one not, so 8000 for one and 8001 for the other, etc)
+   - and of course, unpaired stalfos params are just 0000 for invisible, 0001 for floor, 0003 ceiling etc
+
+Bone Ball
+  Actor   0042
+  Object  002F
+
+Spike (rolls around, turns into a stone)
+  Actor   0240
+  Object  021E
+
+Cog
+  Actor   0037
+  Object  002D
+

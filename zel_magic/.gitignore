@@ -1,0 +1,19 @@
+# don't track large files
+samples.bin
+sequences.bin
+soundfonts.bin
+table_font.bin
+table_sample.bin
+table_seq.bin
+table_seqfont.bin
+
+# exclude linux binaries, expect user to build them
+tools/novl
+tools/seq64_console
+tools/seqas
+tools/z64audio
+tools/z64convert
+tools/z64playas
+tools/z64upgrade
+z64rom
+

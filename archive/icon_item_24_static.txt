@@ -1,0 +1,16 @@
+icon_item_24_static.yar # relative path
+icon_item_24_static/ # where the images live
+24x24,rgba32,GoldSkulltulaIcon.png // 0x0 -- original address
+24x24,rgba32,HeartContainerIcon.png // 0x900 -- original address
+24x24,rgba32,PieceOfHeartIcon.png // 0x1200 -- original address 
+24x24,rgba32,HeartContainer2Icon.png // 0x1B00 -- original address
+24x24,rgba32,PieceOfHeart2Icon.png // 0x2400 -- original address
+24x24,rgba32,HeartContainer3Icon.png // 0x2D00 -- original address
+24x24,rgba32,BossKeyIcon.png // 0x3600 -- original address
+24x24,rgba32,CompassIcon.png // 0x3F00 -- original address
+24x24,rgba32,DungeonMapIcon.png // 0x4800 -- original address
+24x24,rgba32,GoldSkulltula2Icon.png // 0x5100 -- original address
+24x24,rgba32,SmallKeyIcon.png // 0x5A00 -- original address
+24x24,rgba32,SmallMagicJarIcon.png // 0x6300 -- original address
+24x24,rgba32,LargeMagicJarIcon.png // 0x6C00 -- original address
+16x16,rgba16,LinkFaceIcon.png // 0x7500 -- original address

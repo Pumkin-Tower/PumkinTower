@@ -1,0 +1,11 @@
+Name = "BoB"
+
+[[Render]]
+    Regex = "...."
+    Scale = 0.01
+    Animation = 1
+    YOffset = 20
+[[Property]]
+    Mask      = 0x003F
+    Name      = "Switch Flag (Nullable)"
+    Target    = "Var"

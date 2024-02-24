@@ -1,0 +1,3 @@
+scene  spawn   flags   notes
+18         2   0x4102  "leads from mountain smithy to intermission"
+

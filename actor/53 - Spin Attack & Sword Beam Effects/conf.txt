@@ -1,0 +1,3 @@
+allocation   0x0002
+vram         0x808B53C0
+ivar         0x808B7100

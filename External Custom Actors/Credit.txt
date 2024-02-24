@@ -1,0 +1,14 @@
+Credit for BoB (Ball of Bones) - Jinnosuke :muscle: (Thank You, Jinno!)
+
+Rat enemy -
+By CDi-Fails
+Pols Voice enemy -
+Weak to arrows and Ocarina songs
+Code by CDi-Fails, LuigiXHero, and hiisuya; assets by CDi-Fails
+Configurable platforms (repurposed into custom cog actor) -
+Various themes/textures
+Can either fade in on switch flag, or hover in the air
+By hiisuya
+Porting over these actors to Z64rom format -
+Sound Collector/LordMegaMix/XdudeAwesome
+(Thank You all!)

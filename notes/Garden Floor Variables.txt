@@ -1,0 +1,8 @@
+Room0 Torches Spawn area - 4
+Room0 Chest Spawn area - F
+Room0 Switch - 3
+Room0 Portcullis - 1
+Room0 Bug Pumkin and door - D
+Room0 Fish Pumkin and door - C
+Room4 Torches - A
+Room5 Eye Switch and Chest - B

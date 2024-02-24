@@ -1,0 +1,20 @@
+1. Make an assessment as to whether or not the song should be mono or stereo. Opting for mono instead of stereo will reduce the song’s size roughly in half, however stereo should be preferred if possible for quality.
+2. Open your audio file in a tool like Audacity, and make these changes:
+- Sample rate should be no higher than 32khz (just use 32khz)
+- If you are using mono, make sure there is only a single channel, and export the as a 16 bit wav file
+- If you are using stereo, you need to split the channels and export an individual wav file for both the left and right channels
+3. Open your wav file(s) in the version of z64audio I provided. Select the region which you want to use for the loop, and click “set loop” and then save the file. If you are using stereo, you need to do this twice and be very careful that the loops are the same region for both wavs, or else the left and right channels will slowly become out of sync.
+4. Make folders for your wav(s) in zel_magic/src/sound/samples
+- Ex: Song_3Q_Opening_LR (mono)
+- Ex: Song_Fire_Temple_L, Song_Fire_Temple_R (stereo)
+5. Place your wav files in their respective folders. There should only be wav files in these folders (do not add a config.toml, z64rom will generate this for us).
+6. Find the toml for soundfont 0x0B in zel_magic/rom/sound/soundfont.
+- Follow the examples already provided in the file, you can copy and paste one of them and simply change the sample name it references to be the folder names we used earlier (Song_Fire_Temple_L, etc.)
+- You will need to make an instrument for each of your respective wav files, so if stereo then you will be making two instruments.
+7. Finally we will make a sequence to tie this all together. You will need the new version of Seq64 for this, or hex edit one of my existing examples.
+- Basically, the first instrument command in this sequence that you see corresponds to the left channel, and the second one corresponds to the right channel.
+- You will need to figure out the index of your instrument within the toml, simply count starting from 0.
+- Change the number for each channel to correspond to the number in the sound font. If you are using mono, both will simply use the same number.
+- Now once you’ve modified the file, simply import it as .mus in seq64, and export as com/aseq
+- Save the file as sequence.aseq and place it in the folder
+8. Rebuild the rom and listen to your new song!

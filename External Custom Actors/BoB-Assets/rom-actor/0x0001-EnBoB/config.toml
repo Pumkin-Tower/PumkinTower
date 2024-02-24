@@ -1,0 +1,4 @@
+# file
+alloc_type = 0
+vram_addr  = 0x80800000
+init_vars  = 0x80803614

@@ -1,0 +1,5 @@
+scene  spawn   flags   notes
+18         4   0x4102  "leads from ice floor to intermission"
+22         0   0x4102  "leads from ice floor to starry floor"
+81         0   0x4102  "leads from ice floor to ghost hut"
+

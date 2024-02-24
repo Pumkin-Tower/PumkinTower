@@ -1,0 +1,4 @@
+zzrtl                   v0.01
+baserom                 "mm-u-dec.z64"
+ZZPLAYAS_VROM_CODE      "'mm-u-dec.z64'+0x00B3C000"
+ZZPLAYAS_VROM_PLAYER    "'mm-u-dec.z64'+0x00CA7F00"

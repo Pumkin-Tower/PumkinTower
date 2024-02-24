@@ -1,0 +1,6 @@
+# Battle
+bank_id         = [ 0x0B ]
+# Sample Medium types [ram/unk/cart/ddrive]
+medium_type     = "cart"
+# Sequence Player types [sfx/fanfare/bgm/demo]
+sequence_player = "bgm"

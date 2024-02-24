@@ -1,0 +1,307 @@
+#medium_type = "ram" / "unk"     / "cart" / "ddrive"
+#sequence_player = "sfx" / "fanfare" / "bgm"  / "demo"
+medium_type = "cart"
+sequence_player = "sfx"
+[inst]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_000"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_001"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_002"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_003"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_004"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_005"
+			tuning = 0.689062
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_007"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_008"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_010"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_023"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_012"
+			tuning = 0.689062
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_015"
+			tuning = 0.500000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_016"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_024"
+			tuning = 1.000000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_018"
+			tuning = 0.667420
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_022"
+			tuning = 0.689062
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_019"
+			tuning = 0.198425
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_020"
+			tuning = 0.750000
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_017"
+			tuning = 0.689062
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 231
+		env_rate = [
+			1, 1, 32700, -1,
+		]
+		env_level = [
+			0, 32700, 32700, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_021"
+			tuning = 0.689062
+		[inst.entry.hi]
+

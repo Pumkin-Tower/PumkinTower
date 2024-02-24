@@ -1,0 +1,3 @@
+normalize       = true # Maximum volume
+inherit_vanilla = false # If vanilla config exists, inherit pitch from it
+half_precision  = false # Rough compression

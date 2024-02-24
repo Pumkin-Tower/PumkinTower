@@ -1,0 +1,821 @@
+#medium_type = "ram" / "unk"     / "cart" / "ddrive"
+#sequence_player = "sfx" / "fanfare" / "bgm"  / "demo"
+medium_type = "cart"
+sequence_player = "bgm"
+[inst]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "G4"
+		release_rate = 174
+		env_rate = [
+			2, 298, 1, -1,
+		]
+		env_level = [
+			32700, 0, 0, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_643"
+			tuning = 1.781798
+		[inst.entry.prim]
+			sample = "Unk_644"
+			tuning = 0.890899
+		[inst.entry.hi]
+	[[inst.entry]]
+		split_hi = "F3"
+		split_lo = "F3"
+		release_rate = 231
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_645"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_646"
+			tuning = 2.996615
+		[inst.entry.hi]
+			sample = "Unk_647"
+			tuning = 2.121321
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_382"
+			tuning = 0.333710
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "E12"
+		split_lo = "A1"
+		release_rate = 239
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+		[inst.entry.prim]
+			sample = "Unk_382"
+			tuning = 0.333710
+		[inst.entry.hi]
+	[[inst.entry]]
+	[[inst.entry]]
+	[[inst.entry]]
+		split_hi = "C#5"
+		split_lo = "D#4"
+		release_rate = 235
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_602"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_603"
+			tuning = 1.259921
+		[inst.entry.hi]
+			sample = "Unk_604"
+			tuning = 0.629961
+	[[inst.entry]]
+		split_hi = "C#5"
+		split_lo = "D#4"
+		release_rate = 235
+		env_rate = [
+			2, 1, 32700, -1,
+		]
+		env_level = [
+			32700, 32700, 29430, 0,
+		]
+		[inst.entry.low]
+			sample = "Unk_602"
+			tuning = 4.000000
+		[inst.entry.prim]
+			sample = "Unk_603"
+			tuning = 1.259921
+		[inst.entry.hi]
+			sample = "Unk_604"
+			tuning = 0.629961
+[drum]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.314980
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.333710
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.353553
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.374577
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.396850
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.420448
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.445449
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.471937
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.500000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.529732
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.561231
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.594604
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.629961
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.667420
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.707107
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.749154
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.793701
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.840897
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.890899
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 0.943875
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.000000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.059463
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.122462
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.189207
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.259921
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.334840
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.414214
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.498307
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.587401
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.681793
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.781798
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 1.887749
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 2.000000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 19
+		release_rate = 108
+		sample = "Unk_648"
+		tuning = 2.118926
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.375000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.397299
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.420923
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.445953
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.472471
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.500565
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.530330
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.561865
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.595276
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.630673
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.668174
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.707906
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.750000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.794597
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.841847
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.891905
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 0.944941
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.001130
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.060660
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.123730
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.190551
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.261345
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.336349
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.415812
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.500000
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.589195
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.683693
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.783810
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 1.889881
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+	[[drum.entry]]
+		pan = 106
+		release_rate = 108
+		sample = "Unk_649"
+		tuning = 2.002260
+		env_rate = [
+			2, 1, 421, -1,
+		]
+		env_level = [
+			32700, 32700, 0, 0,
+		]
+

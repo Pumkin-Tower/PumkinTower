@@ -1,0 +1,11 @@
+codec = 0
+medium = 0
+bitA = 1
+bitB = 0
+loop_start = 23244
+loop_end = 31683
+loop_count = -1
+tail_end = 31712
+basenote = 54
+finetune = -56
+

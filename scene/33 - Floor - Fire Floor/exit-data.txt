@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+27         1   0x4102  "leads to flooded basement"
+31         0   0x4102  "leads to flooded basement"
+

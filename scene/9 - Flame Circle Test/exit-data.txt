@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+18         4   0x4102  "intermission, far entrance"
+78         0   0x4102  "fishing pond"
+

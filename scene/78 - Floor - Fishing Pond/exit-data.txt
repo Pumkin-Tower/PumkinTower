@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+54         0   0x4102  "leads to 'the end' screen followed by credits sequence"
+79         0   0x4102  "leads to sakon's hideout (for testing)"
+

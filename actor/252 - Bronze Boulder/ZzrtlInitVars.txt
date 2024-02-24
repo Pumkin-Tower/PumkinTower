@@ -1,0 +1,1 @@
+80a00ad0 g     O .rodata	00000020 ZzrtlInitVars

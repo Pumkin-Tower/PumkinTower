@@ -1,0 +1,3 @@
+allocation   0x0000
+vram         0x8091A8A0
+ivar         0x8091BD64

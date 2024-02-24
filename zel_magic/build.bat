@@ -1,0 +1,1 @@
+start z64rom.exe --audio-only --build

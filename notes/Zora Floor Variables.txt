@@ -1,0 +1,22 @@
+Peahat/Dragonfly Room = openedFlag = 0x02
+
+Spike Ball/Bombchu Room = 0x03
+
+Hookshot Chest = 4
+
+Double Magic = 5
+
+Wallet Chest = 6
+
+Empty Bottle = 7
+
+Rupee Chest = 8
+
+Bombchu Chest = 9
+
+Rupee Chest = 0x0A
+
+Hungry Pumpkin Door = 0x0B
+
+Heart Container = 0x1F
+

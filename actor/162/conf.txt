@@ -1,0 +1,3 @@
+allocation   0x0000
+vram         0x80947F60
+ivar         0x8094AD40

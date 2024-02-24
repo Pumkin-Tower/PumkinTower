@@ -1,0 +1,3 @@
+room   actor    x        y        z        encode_x    encode_y    encode_z    notes
+   0       1    5        ~        ~        false       ~           ~           "this timer lasts 5 seconds"
+

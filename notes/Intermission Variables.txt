@@ -1,0 +1,4 @@
+
+flag    description
+0x08    owl mask treasure chest
+

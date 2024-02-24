@@ -1,0 +1,5 @@
+scene  spawn   flags   notes
+73         2   0x4102  "leads to ice floor"
+81         1   0x4102  "leads to poe minigame"
+81         2   0x4102  "leads to main room after winning or losing minigame"
+

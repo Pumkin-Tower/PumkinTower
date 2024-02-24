@@ -1,0 +1,18 @@
+spot_name_static.yar # relative path
+spot_name_static/ # where the images live
+128x16,ia4,GreatBay.png // 0x0 -- original address
+128x16,ia4,ZoraHall.png // 0x400 -- original address
+128x16,ia4,RomaniRanch.png // 0x800 -- original address
+128x16,ia4,DekuPalace.png // 0xC00 -- original address
+128x16,ia4,Woodfall.png // 0x1000 -- original address
+128x16,ia4,ClockTown.png // 0x1400 -- original address
+128x16,ia4,Snowhead.png // 0x1800 -- original address
+128x16,ia4,IkanaGraveyard.png // 0x1C00 -- original address
+128x16,ia4,IkanaCanyon.png // 0x2000 -- original address
+128x16,ia4,GoronVillage.png // 0x2400 -- original address
+128x16,ia4,StoneTower.png // 0x2800 -- original address
+128x16,ia4,GreatBayCoast.png // 0x2C00 -- original address
+128x16,ia4,SouthernSwamp.png // 0x3000 -- original address
+128x16,ia4,MountainVillage.png // 0x3400 -- original address
+128x16,ia4,MilkRoad.png // 0x3800 -- original address
+128x16,ia4,ZoraCape.png // 0x3C00 -- original address

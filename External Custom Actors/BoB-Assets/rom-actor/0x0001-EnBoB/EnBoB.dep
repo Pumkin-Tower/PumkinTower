@@ -1,0 +1,9 @@
+src/actor/0x0001-EnBoB/EnBoB.h
+src/lib_user/uLib.h
+src/lib_user/uLib_macros.h
+src/lib_user/uLib_types.h
+include/sfx_enum.h
+include/object/0x0004-EnBoB.h
+src/lib_user/ulib_math.h
+src/lib_user/uLib_vector.h
+

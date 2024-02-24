@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+111        2   0x4102  "leads to starting floor"
+33         0   0x4102  "leads to goron fire area"
+

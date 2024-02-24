@@ -1,0 +1,4 @@
+scene  spawn   flags   notes
+18         0   0x4102  "leads to pumpkin tower intermission"
+27         0   0x4102  "leads to flooded basement"
+

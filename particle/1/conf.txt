@@ -1,0 +1,2 @@
+vram         0x80977A00
+unknown      0x01000000
