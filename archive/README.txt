@@ -1,1 +1,1 @@
-use zzyarman to edit .yar files -> z64.me/zzyarman
+use z64yartool to edit yar files -> https://github.com/z64tools/z64yartool
