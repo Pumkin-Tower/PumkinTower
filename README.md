@@ -1,6 +1,8 @@
 # Pumkin Tower
 Open Source Pumkin Tower Project
 
+NOTE: If you run into issues with newer Sharp Ocarina versions, please use Sharp Ocarina 1.43 for this project.
+
 Windows building instructions-
 
 1. Clone the Pumkin Tower Open Source repo: ``git clone https://github.com/Pumkin-Tower/PumkinTower.git``
