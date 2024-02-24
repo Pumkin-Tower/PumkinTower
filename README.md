@@ -7,7 +7,7 @@ Windows building instructions-
 
 2.Download z64rom: https://github.com/z64tools/z64rom/releases/download/1.5.10/app_win32.zip and extract it. Rename app_win32 to z64rom for organization and move that folder to the Pumkin Tower Repo. Run z64rom.exe once to install its dependencies.
 
-3. Decompress a copy of mm-u.z64 and also move that to the Pumkin Tower repo folder.
+3. Decompress a copy of ``mm-u.z64`` and also move that to the Pumkin Tower repo folder. Name it ``mm-u-dec.z64``
 
 4. Click and drag mm_build.rtl onto zzrtl.exe
 
