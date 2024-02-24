@@ -1,0 +1,42 @@
+; ---------- Sequence Header ----------
+
+_start
+    mutebhv    , 32
+    initchan    , $0003
+    svol    , 127
+    startchan   , 0, StreamSeq_Left_Chn0
+    startchan   , 1, StreamSeq_Right_Chn1
+    tempo    , 1
+StreamSeq
+    delay    , 32767
+    jump    , StreamSeq
+    disablechan    , $0003
+    end    
+
+; ---------- Channel Headers ----------
+
+; Left channel
+StreamSeq_Left_Chn0
+    shortoff    
+    startlayer    , 0, StreamSeq_NoteLayer
+    instr    , 6
+    cvol    , 127
+    cpan    , 0
+    delay    , 32767
+    end    
+
+; Right Channel
+StreamSeq_Right_Chn1
+    shortoff    
+    startlayer    , 0, StreamSeq_NoteLayer
+    instr    , 6
+    cvol    , 127
+    cpan    , 127
+    delay    , 32767
+    end    
+
+; ---------- Note Layers ----------
+StreamSeq_NoteLayer
+    ltp    , 0
+    notedv    , 39, 32767, 127
+    end    
