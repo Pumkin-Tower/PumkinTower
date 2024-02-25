@@ -11,7 +11,9 @@ Windows building instructions-
 
 3. Decompress a copy of ``mm-u.z64`` and also move that to the Pumkin Tower repo folder. Name it ``mm-u-dec.z64``
 
-4. Click and drag mm_build.rtl onto zzrtl.exe
+4. Move ``msys-2.0.dll`` from ``PumkinTower\z64rom\tools\mips64-binutils\bin`` into your system32 folder or you'll get errors when trying to compile actors.
+
+5. Click and drag mm_build.rtl onto zzrtl.exe
 
 Building a Pumkin Tower deubug rom:
 ``zzrtl.exe mm_build.rtl --clean``
